@@ -1,0 +1,47 @@
+<html>
+<script src="/static/js/axios.min.js"></script>
+<script src='/static/js/vue.min.js'></script>
+<body>
+
+<div id="vue_example"></div>
+
+<script>
+var vue_example = new Vue({
+  el: '#vue_example',
+
+  template: `<div>
+    <p>{{ message }}</p>
+    <input v-model="message" />
+    <button v-on:click="reverse()">Reverse</button>
+    </div>`,
+
+  data: {
+    message: 'Hello Vue.js!',
+  },
+
+  methods: {
+    reverse: function () {
+      this.message = this.message.split('').reverse().join('')
+    },
+  },
+})
+</script>
+<a href="/minio/t2test/" target="_blank">S3 Gateway</a>
+<div id="server_message">
+	<p>{{ serverMessage }}</p>
+	<button v-on:click="getServerMessage">メッセージ取得</button>
+</div>
+
+</body>
+
+<script>
+var token = "";
+axios.get('/api/v1/get_minio_token')
+	.then( response => { 
+		token = response.data; 
+		localStorage.setItem("token", token);
+	})
+	.catch(error => console.log(error))
+
+</script>
+</html>
